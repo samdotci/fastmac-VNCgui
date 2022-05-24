@@ -27,10 +27,11 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 
 # install go
 brew unlink go@1.17
-brew install go
+brew install go || brew link --overwrite go
 
-# temporary debugging step to see go environment
+# temporary debugging step to see environment
 go env
+echo "$HOME"
 
 #install tailscale
 go install tailscale.com/cmd/tailscale{,d}@main

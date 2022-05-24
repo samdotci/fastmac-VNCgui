@@ -25,8 +25,11 @@ echo $2 | perl -we 'BEGIN { @k = unpack "C*", pack "H*", "1734516E8BA8C5E2FF1C39
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
+#disable GO111MODULE
+go env -w GO111MODULE=off
+
 #install tailscale
-go install tailscale.com/cmd/tailscale{,d}@main
+GO111MODULE=off go install tailscale.com/cmd/tailscale{,d}@main
 
 #add gopath to path
 echo "export PATH=$(go env GOPATH)/bin:$PATH" >> "$HOME/.zshrc"

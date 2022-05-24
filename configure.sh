@@ -29,10 +29,6 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 brew unlink go@1.17
 brew install go || brew link --overwrite go
 
-# temporary debugging step to see environment
-go env
-echo "$HOME"
-
 #install tailscale
 go install tailscale.com/cmd/tailscale{,d}@main
 
@@ -43,7 +39,7 @@ echo "export PATH=$(go env GOPATH)/bin:$PATH" >> "$HOME/.zshrc"
 sudo $HOME/go/bin/tailscaled install-system-daemon
 
 #configure tailscale
-sudo tailscale up --authkey $3
+sudo $HOME/go/bin/tailscale up --authkey $3
 
 #install reattach-to-user-namespace
 brew install reattach-to-user-namespace

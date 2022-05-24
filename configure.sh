@@ -1,4 +1,4 @@
-#configure.sh VNC_USER_PASSWORD VNC_PASSWORD NGROK_AUTH_TOKEN
+#configure.sh VNC_USER_PASSWORD VNC_PASSWORD TAILSCALE_AUTH_KEY NGROK_AUTH_TOKEN
 
 #disable spotlight indexing
 sudo mdutil -i off -a
@@ -25,15 +25,30 @@ echo $2 | perl -we 'BEGIN { @k = unpack "C*", pack "H*", "1734516E8BA8C5E2FF1C39
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
-#install ngrok
-brew install --cask ngrok
+#install go to build tailscale
+brew install go
+
 #install tailscale
-brew install tailscale
+go install tailscale.com/cmd/tailscale{,d}@main
+
+#add gopath to path
+echo "export PATH=$(go env GOPATH)/bin:$PATH" >> "$HOME/.zshrc"
+
+#install the tailscale daemon
+sudo $HOME/go/bin/tailscaled install-system-daemon
+
+#configure tailscale
+sudo tailscale up --authkey $3
+
 #install reattach-to-user-namespace
 brew install reattach-to-user-namespace
+
 #configure tmux
 echo "set-option -g default-command 'reattach-to-user-namespace -l zsh'" >> "$HOME/.tmux.conf"
 
+#install ngrok
+brew install --cask ngrok
+
 #configure ngrok and start it
-ngrok authtoken $3
+ngrok authtoken $4
 ngrok tcp 5900 &

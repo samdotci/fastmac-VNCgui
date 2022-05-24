@@ -27,6 +27,10 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 
 #install ngrok
 brew install --cask ngrok
+#install tailscale
+brew install tailscale
+#configure tmux
+echo "set-option -g default-command 'reattach-to-user-namespace -l zsh'" >> "$HOME/.tmux.conf"
 
 #configure ngrok and start it
 ngrok authtoken $3

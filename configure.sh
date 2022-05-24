@@ -29,6 +29,8 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 brew install --cask ngrok
 #install tailscale
 brew install tailscale
+#install reattach-to-user-namespace
+brew install reattach-to-user-namespace
 #configure tmux
 echo "set-option -g default-command 'reattach-to-user-namespace -l zsh'" >> "$HOME/.tmux.conf"
 
